@@ -55,3 +55,28 @@ int countDots(void)
 
     return count;
 }
+
+int map_is_walkable(int row, int col)
+{
+    return row >= 0 && row < MAP_ROWS &&
+           col >= 0 && col < MAP_COLS &&
+           board[row][col] != '#';
+}
+
+char map_collect_item(int row, int col)
+{
+    char item;
+
+    if (!map_is_walkable(row, col))
+    {
+        return ' ';
+    }
+
+    item = board[row][col];
+    if (item == '.' || item == 'o')
+    {
+        board[row][col] = ' ';
+    }
+
+    return item;
+}
