@@ -1,15 +1,12 @@
 #ifndef PACMAN_H
 #define PACMAN_H
 
-// Player structure tracking coordinates, score, and lives
 typedef struct {
-    int x, y;
-    int score;
-    int lives;
+    int x;
+    int y;
 } Pacman;
 
-// Function Declarations
-void initPacman(Pacman *p, int startX, int startY);
-void handleInput(Pacman *p, char map[20][20], int *isRunning);
+void pacman_init(void);
+void pacman_move(int key, void *game_ptr); // Takes key and game state to update score/lives
 
 #endif
