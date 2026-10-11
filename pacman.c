@@ -75,7 +75,7 @@ int pacman_move(Pacman *pacman, int key, Game *game)
         game->remaining_dots--;
         game->power_active = 1;
         game->power_timer =
-            POWER_DURATION_SECONDS * 1000 / GAME_DELAY;
+            (POWER_DURATION_SECONDS * 1000 + GAME_DELAY - 1) / GAME_DELAY;
     }
 
     if (game->remaining_dots <= 0)

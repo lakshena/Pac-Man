@@ -14,12 +14,14 @@ typedef struct ScoreNode {
 
 /* Load scores from scores.txt */
 ScoreNode *loadScores(void);
+ScoreNode *loadScoresFromFile(const char *path);
 
 /* Insert a new score in descending order */
 ScoreNode *insertScore(ScoreNode *head, const char *name, int score);
 
 /* Save scores to scores.txt */
-void saveScores(ScoreNode *head);
+int saveScores(ScoreNode *head);
+int saveScoresToFile(ScoreNode *head, const char *path);
 
 /* Display the high-score table */
 void displayScores(ScoreNode *head);

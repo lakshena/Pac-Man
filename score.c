@@ -15,11 +15,21 @@
  */
 ScoreNode *loadScores(void)
 {
+    return loadScoresFromFile(SCORE_FILE);
+}
+
+ScoreNode *loadScoresFromFile(const char *path)
+{
     FILE *file;
     ScoreNode *head = NULL;
     char name[MAX_NAME_LENGTH];
     int score;
-    file = fopen(SCORE_FILE, "r");
+    if (path == NULL)
+    {
+        fprintf(stderr, "Error: Score file path is null.\n");
+        return NULL;
+    }
+    file = fopen(path, "r");
     /*
      * If the file does not exist, simply return
      * an empty linked list.
@@ -100,27 +110,50 @@ ScoreNode *insertScore(ScoreNode *head, const char *name, int score)
  *
  * Only the top MAX_SCORES scores are saved.
  */
-void saveScores(ScoreNode *head)
+int saveScores(ScoreNode *head)
+{
+    return saveScoresToFile(head, SCORE_FILE);
+}
+
+int saveScoresToFile(ScoreNode *head, const char *path)
 {
     FILE *file;
     ScoreNode *current;
     int count = 0;
-    file = fopen(SCORE_FILE, "w");
+    int failed = 0;
+
+    if (path == NULL)
+    {
+        fprintf(stderr, "Error: Score file path is null.\n");
+        return -1;
+    }
+    file = fopen(path, "w");
     if (file == NULL)
     {
-        printf("Error: Could not save scores.\n");
-        return;
+        perror("Error: Could not save scores");
+        return -1;
     }
     current = head;
     while (current != NULL && count < MAX_SCORES)
     {
-        fprintf(file, "%s %d\n",
-                current->name,
-                current->score);
+        if (fprintf(file, "%s %d\n", current->name, current->score) < 0)
+        {
+            failed = 1;
+            break;
+        }
         current = current->next;
         count++;
     }
-    fclose(file);
+    if (fclose(file) != 0)
+    {
+        failed = 1;
+    }
+    if (failed)
+    {
+        perror("Error: Could not finish writing scores");
+        return -1;
+    }
+    return 0;
 }
 /*
  * Display the high-score table.
