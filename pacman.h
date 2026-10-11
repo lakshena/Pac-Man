@@ -2,11 +2,16 @@
 #define PACMAN_H
 
 typedef struct {
-    int x;
-    int y;
+    int row;
+    int col;
 } Pacman;
 
-void pacman_init(void);
-void pacman_move(int key, void *game_ptr); // Takes key and game state to update score/lives
+typedef struct Game Game;
+
+void pacman_init(Pacman *pacman);
+int pacman_move(Pacman *pacman, int key, Game *game);
+int pacman_input_init(void);
+int pacman_read_input(void);
+void pacman_input_shutdown(void);
 
 #endif
