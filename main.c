@@ -1,4 +1,3 @@
-```c
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -56,10 +55,7 @@ static int read_key(void)
 
 static Game game;
 
-/*
- * Initialize all game modules.
- * Update these function calls to match your team's headers.
- */
+/* Initialize all game modules. */
 void init_game(Game *game)
 {
     game->running = 1;
@@ -82,11 +78,10 @@ void draw_game(Game *game)
     CLEAR_SCREEN();
 
     printf("========== PAC-MAN ==========\n");
-    printf("Score: %d     Lives: %d\n", game->score, game->lives);
+    printf("Score: %d      Lives: %d\n", game->score, game->lives);
 
     if (game->power_active)
-        printf("POWER MODE: %d seconds remaining\n",
-               game->power_timer);
+        printf("POWER MODE: %d seconds remaining\n", game->power_timer);
 
     printf("\n");
     map_print();
@@ -97,23 +92,6 @@ void draw_game(Game *game)
 /* Update movement, ghosts, collisions and power-up timer. */
 void update_game(Game *game)
 {
-    /*
-     * Call your Member 2 movement function here.
-     * Example:
-     * pacman_move();
-     */
-
-    /*
-     * Call your Member 3 BFS ghost movement function here.
-     * Example:
-     * ghost_move();
-     */
-
-    /*
-     * Update score and lives using the shared game modules.
-     * Activate power mode when a power pellet is collected.
-     */
-
     if (game->power_active) {
         game->power_timer--;
 
@@ -137,10 +115,6 @@ void run_game(Game *game)
             if (key == 'q' || key == 'Q') {
                 game->running = 0;
             } else {
-                /*
-                 * Replace with the actual movement function
-                 * declared in pacman.h.
-                 */
                 switch (key) {
                     case 'w':
                     case 'W':
@@ -150,7 +124,7 @@ void run_game(Game *game)
                     case 'S':
                     case 'd':
                     case 'D':
-                        /* pacman_move(key); */
+                        pacman_move(key, game);
                         break;
                     default:
                         break;
@@ -164,11 +138,20 @@ void run_game(Game *game)
             if (key == 'q' || key == 'Q') {
                 game->running = 0;
             } else {
-                /*
-                 * Replace with the actual movement function
-                 * declared in pacman.h.
-                 */
-                /* pacman_move(key); */
+                switch (key) {
+                    case 'w':
+                    case 'W':
+                    case 'a':
+                    case 'A':
+                    case 's':
+                    case 'S':
+                    case 'd':
+                    case 'D':
+                        pacman_move(key, game);
+                        break;
+                    default:
+                        break;
+                }
             }
         }
 #endif
@@ -187,13 +170,6 @@ void end_game(Game *game)
     printf("Final Score: %d\n", game->score);
     printf("Lives Remaining: %d\n", game->lives);
 
-    /*
-     * Connect these calls to the actual functions in score.h.
-     * Example:
-     * save_score(game->score);
-     * display_high_scores();
-     */
-
     printf("\nThanks for playing!\n");
 }
 
@@ -205,4 +181,3 @@ int main(void)
 
     return 0;
 }
-```
