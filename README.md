@@ -1,5 +1,25 @@
 # Pac-Man
 
+## Project layout
+
+The game modules and their headers stay in the repository root to match the
+assignment's required filenames. Tests, generated build output, and CI
+configuration are kept in their own locations:
+
+```text
+Pac-Man/
+├── .github/workflows/   # Automated build and test workflow
+├── build/               # Generated executables and test files (not committed)
+├── tests/               # Automated C tests
+├── main.c, game.h       # Game loop and shared game state
+├── map.c, map.h         # Maze matrix and map operations
+├── pacman.c, pacman.h   # Player movement and keyboard input
+├── ghost.c, ghost.h     # Ghost AI and BFS pathfinding
+├── score.c, score.h     # Sorted high-score list and file I/O
+├── Makefile             # Build and test commands
+└── README.md            # Setup and usage instructions
+```
+
 ## Linux
 
 1. Open a terminal.
@@ -69,13 +89,14 @@ continuing.
 3. Compile the game:
 
    ```powershell
-   gcc -std=c11 -Wall -Wextra -Wpedantic -o pacman.exe main.c map.c pacman.c ghost.c score.c
+   New-Item -ItemType Directory -Force build
+   gcc -std=c11 -Wall -Wextra -Wpedantic -o build\pacman.exe main.c map.c pacman.c ghost.c score.c
    ```
 
 4. Run it:
 
    ```powershell
-   .\pacman.exe
+   .\build\pacman.exe
    ```
 
 ## Controls and scores
