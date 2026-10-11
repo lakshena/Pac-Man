@@ -1,43 +1,28 @@
 #include <stdio.h>
-#include <conio.h>
 #include "pacman.h"
+#include "game.h"
+#include "map.h"
 
-// Initialize Pac-Man's starting position and stats
-void initPacman(Pacman *p, int startX, int startY) {
-    p->x = startX;
-    p->y = startY;
-    p->score = 0;
-    p->lives = 3;
+static Pacman pacman;
+
+void pacman_init(void) {
+    // Set starting position (e.g., coordinates matching map initialization)
+    pacman.x = 1;
+    pacman.y = 1;
 }
 
-// Handle real-time keyboard inputs, wall collisions, and exit feature
-void handleInput(Pacman *p, char map[20][20], int *isRunning) {
-    if (_kbhit()) { // Check if a key was pressed
-        char ch = _getch(); // Grab the key instantly
-        int newX = p->x;
-        int newY = p->y;
+void pacman_move(int key, void *game_ptr) {
+    Game *game = (Game *)game_ptr;
+    int newX = pacman.x;
+    int newY = pacman.y;
 
-        // Determine destination based on WASD
-        if (ch == 'w' || ch == 'W') newY--;
-        else if (ch == 's' || ch == 'S') newY++;
-        else if (ch == 'a' || ch == 'A') newX--;
-        else if (ch == 'd' || ch == 'D') newX++;
-        else if (ch == 'q' || ch == 'Q') {
-            *isRunning = 0; // Exit game flag
-            printf("\nExiting game... Final Score: %d\n", p->score);
-            return;
-        }
+    if (key == 'w' || key == 'W') newY--;
+    else if (key == 's' || key == 'S') newY++;
+    else if (key == 'a' || key == 'A') newX--;
+    else if (key == 'd' || key == 'D') newX++;
 
-        // Wall Collision Check ('#' is a wall)
-        if (map[newY][newX] != '#') {
-            p->x = newX;
-            p->y = newY;
 
-            // Eat a dot if present
-            if (map[newY][newX] == '.') {
-                p->score += 10;
-                map[newY][newX] = ' '; // Clear the dot from the map
-            }
-        }
-    }
+    pacman.x = newX;
+    pacman.y = newY;
+
 }
